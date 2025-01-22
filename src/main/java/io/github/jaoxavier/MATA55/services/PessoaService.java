@@ -25,58 +25,30 @@ public class PessoaService {
     {
         Endereco endereco = enderecoService.criarEndereco(dto.getEnderecoTO());
 
-
         if (dto.isTipoPessoaJuridica()) // PJ
         {
-            Juridica juridica = new Juridica();
-            juridica.setNome(dto.getNome());
-            juridica.setDataCadastro(LocalDateTime.now());
-            juridica.setStatus(true);
+            List<Socios> socios = gerarSocios(dto);
 
-            for (ContatoTO contato : dto.getContatos())
-            {
-                Contato ctt = new Contato();
-                ctt.setEmail(contato.getEmail());
-                ctt.setTelefone(contato.getTelefone());
-                juridica.getContato().add(ctt);
-            }
-
-
-            juridica.setNomeFantasia(dto.getNome_social_ou_fantasia());
-            juridica.setCnpj(dto.getCpf_cnpj());
-            juridica.setDataAbertura(dto.getData_nascimento_ou_criacao());
-            juridica.setCnae(dto.getCnae());
-            juridica.setInscricaoEstadual(dto.getInscricao_estadual());
-            juridica.setLucrativo(dto.isLucrativo());
-            juridica.setTipoTributario(dto.getTipoTributario());
-            juridica.setFaturamento(dto.getFaturamento());
-
-            for (SociosTO socio : dto.getSocios())
-            {
-                Pessoa pessoa = buscarPessoaPeloId(socio.getPessoa_id());
-                Socios socios = new Socios();
-                socios.setPessoa(pessoa);
-                socios.setCota(socio.getCota());
-                juridica.getSocios().add(socios);
-            }
-
+            Juridica juridica = geraPessoaJuridica(dto);
+            juridica.setSocios(socios);
             juridica.getEnderecos().add(endereco);
 
             return pessoaRepository.save(juridica);
         }
 
+        Fisica fisica = geraPessoaFisica(dto);
+        fisica.getEnderecos().add(endereco);
+
+        return pessoaRepository.save(fisica);
+    }
+
+
+    private Fisica geraPessoaFisica(PessoaTO dto) {
         Fisica fisica = new Fisica();
         fisica.setNome(dto.getNome());
         fisica.setDataCadastro(LocalDateTime.now());
         fisica.setStatus(true);
-
-        for (ContatoTO contato : dto.getContatos())
-        {
-            Contato ctt = new Contato();
-            ctt.setEmail(contato.getEmail());
-            ctt.setTelefone(contato.getTelefone());
-            fisica.getContato().add(ctt);
-        }
+        fisica.setContato(dto.getContatos());
 
         fisica.setNomeSocial(dto.getNome_social_ou_fantasia());
         fisica.setCpf(dto.getCpf_cnpj());
@@ -85,14 +57,52 @@ public class PessoaService {
         fisica.setProfissao(dto.getProfissao());
         fisica.setEscolaridade(dto.getEscolaridade());
         fisica.setRenda(dto.getRenda());
-        fisica.setMae(dto.getMae());
-        fisica.setPai(dto.getPai());
+        fisica.setFiliacao(dto.getFiliacao());
         fisica.setNaturalidade(dto.getNaturalidade());
 
-        fisica.getEnderecos().add(endereco);
-
-        return pessoaRepository.save(fisica);
+        return fisica;
     }
+
+    private Juridica geraPessoaJuridica(PessoaTO dto) {
+        Juridica juridica = new Juridica();
+
+        juridica.setNome(dto.getNome());
+        juridica.setDataCadastro(LocalDateTime.now());
+        juridica.setStatus(true);
+
+
+        juridica.setNomeFantasia(dto.getNome_social_ou_fantasia());
+        juridica.setCnpj(dto.getCpf_cnpj());
+        juridica.setDataAbertura(dto.getData_nascimento_ou_criacao());
+        juridica.setCnae(dto.getCnae());
+        juridica.setInscricaoEstadual(dto.getInscricao_estadual());
+        juridica.setLucrativo(dto.isLucrativo());
+        juridica.setTipoTributario(dto.getTipoTributario());
+        juridica.setFaturamento(dto.getFaturamento());
+
+        return juridica;
+    }
+
+    private List<Socios> gerarSocios(PessoaTO dto) {
+        if (dto.getSocios().isEmpty())
+        {
+            return List.of();
+        }
+
+        List<Socios> socios = new ArrayList<>();
+
+        for (SociosTO socio : dto.getSocios())
+        {
+            Pessoa pessoa = buscarPessoaPeloId(socio.getPessoa_id());
+            Socios socioTemp = new Socios();
+            socioTemp.setPessoa(pessoa);
+            socioTemp.setCota(socio.getCota());
+            socios.add(socioTemp);
+        }
+
+        return socios;
+    }
+
 
     public Pessoa buscarPessoaPeloId(Integer id)
     {

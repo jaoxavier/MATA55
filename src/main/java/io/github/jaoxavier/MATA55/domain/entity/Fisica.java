@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -13,6 +15,12 @@ import java.time.LocalDate;
 @DiscriminatorValue("FISICA")
 public class Fisica extends Pessoa
 {
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<Filiacao> filiacao = new ArrayList<>();
+
     private String nomeSocial;
 
     private String cpf;
@@ -28,13 +36,6 @@ public class Fisica extends Pessoa
 
     private double renda;
 
-    private String mae;
-
-    private String pai;
-
     private String naturalidade;
 
-    public String getFiliacao(){
-        return "Mãe: " + this.mae + " Pai: " + (this.pai == null ? "Não informado" : this.pai);
-    }
 }

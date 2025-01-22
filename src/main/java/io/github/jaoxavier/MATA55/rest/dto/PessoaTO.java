@@ -1,5 +1,7 @@
 package io.github.jaoxavier.MATA55.rest.dto;
 
+import io.github.jaoxavier.MATA55.domain.entity.Contato;
+import io.github.jaoxavier.MATA55.domain.entity.Filiacao;
 import io.github.jaoxavier.MATA55.domain.enums.EstadoCivil;
 import io.github.jaoxavier.MATA55.domain.enums.TipoTributario;
 import lombok.Data;
@@ -16,7 +18,9 @@ public class PessoaTO // Um clienteTO significa que ele será usado de molde par
     private String nome_social_ou_fantasia;
     private LocalDate data_nascimento_ou_criacao;
 
-    private List<ContatoTO> contatos;
+    private List<Contato> contatos;
+    private List<Filiacao> filiacao;
+    private List<SociosTO> socios;
 
     private EnderecoTO enderecoTO;
 
@@ -29,6 +33,7 @@ public class PessoaTO // Um clienteTO significa que ele será usado de molde par
     private String pai;
     private String naturalidade;
 
+
     //PJ DADOS
     private String cnae;
     private String inscricao_estadual;
@@ -36,5 +41,4 @@ public class PessoaTO // Um clienteTO significa que ele será usado de molde par
     private TipoTributario tipoTributario;
     private double faturamento;
 
-    private List<SociosTO> socios;
 }
