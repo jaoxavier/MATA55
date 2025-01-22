@@ -5,6 +5,7 @@ import io.github.jaoxavier.MATA55.domain.enums.TipoTributario;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class PessoaTO // Um clienteTO significa que ele será usado de molde para receber a informação, não sendo necessário seguir regras
@@ -14,6 +15,8 @@ public class PessoaTO // Um clienteTO significa que ele será usado de molde par
     private String cpf_cnpj;
     private String nome_social_ou_fantasia;
     private LocalDate data_nascimento_ou_criacao;
+
+    private List<ContatoTO> contatos;
 
     private EnderecoTO enderecoTO;
 
@@ -32,4 +35,6 @@ public class PessoaTO // Um clienteTO significa que ele será usado de molde par
     private boolean lucrativo;
     private TipoTributario tipoTributario;
     private double faturamento;
+
+    private List<SociosTO> socios;
 }

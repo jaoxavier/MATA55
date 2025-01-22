@@ -25,6 +25,12 @@ public class Pessoa
 
     private String nome;
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<Contato> contato = new ArrayList<>();
+
     private LocalDateTime dataCadastro;
 
     private boolean status;
