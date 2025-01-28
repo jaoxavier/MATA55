@@ -1,6 +1,7 @@
 package io.github.jaoxavier.MATA55.domain.entity;
 
 import io.github.jaoxavier.MATA55.domain.enums.EstadoCivil;
+import io.github.jaoxavier.MATA55.rest.dto.PessoaTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Fisica extends Pessoa
 {
     @OneToMany(
+            mappedBy = "fisica",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
@@ -38,4 +40,17 @@ public class Fisica extends Pessoa
 
     private String naturalidade;
 
+
+    //TODO PREENCHER AS INFORMAÇÕES DE PESSOAS FISICAS COM AS INFORMAÇÕES BÁSICAS
+    @Override
+    public Fisica criar(PessoaTO dto) {
+        return null;
+    }
+
+    //TODO VALIDAR SE O CNPJ É VÁLIDO
+    @Override
+    public String validarDocumento(String CNPJ)
+    {
+        return CNPJ;
+    }
 }

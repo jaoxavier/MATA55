@@ -1,8 +1,9 @@
 package io.github.jaoxavier.MATA55.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.github.jaoxavier.MATA55.domain.enums.TipoTributario;
+import io.github.jaoxavier.MATA55.rest.dto.JuridicaTO;
+import io.github.jaoxavier.MATA55.rest.dto.PessoaTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,4 +45,16 @@ public class Juridica extends Pessoa
 
     private double faturamento;
 
+    //TODO PREENCHER AS INFORMAÇÕES DE PESSOAS JURIDICAS COM AS INFORMAÇÕES BÁSICAS
+    @Override
+    public Juridica criar(PessoaTO dto) {
+        return null;
+    }
+
+    //TODO VALIDAR SE O CNPJ É VÁLIDO
+    @Override
+    public String validarDocumento(String CNPJ)
+    {
+        return CNPJ;
+    }
 }

@@ -1,9 +1,12 @@
 package io.github.jaoxavier.MATA55.domain.entity;
 
+import io.github.jaoxavier.MATA55.rest.dto.PessoaTO;
+import io.github.jaoxavier.MATA55.services.EnderecoService;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,15 +20,16 @@ import java.util.List;
         name = "tipo",
         discriminatorType = DiscriminatorType.STRING
 ) // Define como será descrito pelas outras entidades
-public class Pessoa
-{
+public abstract class Pessoa {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Definimos o ID único e como será gerado, por ser um banco em memória, usamos AUTO que ele criará automaticamente, se formos usar Banco de Dados real, será IDENTITY
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Definimos o ID único e como será gerado, por ser um banco em memória, usamos AUTO que ele criará automaticamente, se formos usar Banco de Dados real, será IDENTITY
     private Integer id;
 
     private String nome;
 
     @OneToMany(
+            mappedBy = "pessoa",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
@@ -35,7 +39,14 @@ public class Pessoa
 
     private boolean status;
 
-    @OneToMany
+    @OneToMany(
+            mappedBy = "pessoa",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
     private List<Endereco> enderecos = new ArrayList<>();
 
+    public abstract String validarDocumento(String documento);
+
+    public abstract Pessoa criar(PessoaTO pessoa);
 }

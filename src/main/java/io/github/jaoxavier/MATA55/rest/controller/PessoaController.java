@@ -1,7 +1,5 @@
 package io.github.jaoxavier.MATA55.rest.controller;
 
-import io.github.jaoxavier.MATA55.domain.entity.Fisica;
-import io.github.jaoxavier.MATA55.domain.entity.Juridica;
 import io.github.jaoxavier.MATA55.domain.entity.Pessoa;
 import io.github.jaoxavier.MATA55.rest.dto.PessoaTO;
 import io.github.jaoxavier.MATA55.services.PessoaService;

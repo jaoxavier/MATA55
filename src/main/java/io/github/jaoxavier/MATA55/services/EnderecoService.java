@@ -40,7 +40,7 @@ public class EnderecoService
         endereco.setFiscal(dto.isFiscal());
         endereco.setPrincipal(dto.isPrincipal());
 
-        return enderecoRepository.save(endereco);
+        return endereco;
     }
 
     public ResponseEnderecoTO getEnderecoByCep(String cep)

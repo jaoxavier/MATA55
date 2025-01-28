@@ -12,33 +12,13 @@ import java.util.List;
 @Data
 public class PessoaTO // Um clienteTO significa que ele será usado de molde para receber a informação, não sendo necessário seguir regras
 {
-    private String nome;
-    private boolean tipoPessoaJuridica; // 0 - PF / 1 - PJ
-    private String cpf_cnpj;
-    private String nome_social_ou_fantasia;
-    private LocalDate data_nascimento_ou_criacao;
+    private ComumTO comum;
+    private FisicaTO fisica;
+    private JuridicaTO juridica;
 
-    private List<Contato> contatos;
-    private List<Filiacao> filiacao;
+    private List<ContatoTO> contatos;
+    private List<FiliacaoTO> filiacao;
     private List<SociosTO> socios;
 
     private EnderecoTO enderecoTO;
-
-    //PF DADOS
-    private EstadoCivil estadoCivil;
-    private String profissao;
-    private String escolaridade;
-    private double renda;
-    private String mae;
-    private String pai;
-    private String naturalidade;
-
-
-    //PJ DADOS
-    private String cnae;
-    private String inscricao_estadual;
-    private boolean lucrativo;
-    private TipoTributario tipoTributario;
-    private double faturamento;
-
 }
