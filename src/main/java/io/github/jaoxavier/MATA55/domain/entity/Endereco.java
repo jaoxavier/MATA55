@@ -35,6 +35,7 @@ public class Endereco // Usei essa API para referencia https://viacep.com.br/ws/
     // "https://viacep.com.br/ws/{CEP}/json"
     public ResponseEnderecoTO buscarPeloCEP(String cep)
     {
+        // USAR API CORREIOS
         return null;
     }
 
