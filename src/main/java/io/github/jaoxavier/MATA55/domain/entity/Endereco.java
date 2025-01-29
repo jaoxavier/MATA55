@@ -7,6 +7,7 @@ import io.github.jaoxavier.MATA55.services.EnderecoService;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 @Data
 @Entity
@@ -31,13 +32,39 @@ public class Endereco // Usei essa API para referencia https://viacep.com.br/ws/
     private boolean fiscal;
     private boolean principal;
 
-    // TODO BUSCAR INFORMAÇÕES DO ENDEREÇO COM BASE NO CEP NA API DOS CORREIOS
-    // "https://viacep.com.br/ws/{CEP}/json"
-    public ResponseEnderecoTO buscarPeloCEP(String cep)
-    {
-        // USAR API CORREIOS
-        return null;
+    private boolean validaCep(String cep){
+        if(cep == null || !cep.matches("\\d{8}")){
+            return false;
+        }
+        return true;
     }
+
+    public ResponseEnderecoTO buscarPeloCEP(String cep)
+        {
+            if(validaCep(cep)){
+
+                String url = "https://viacep.com.br/ws/" + cep + "/json/";
+
+                RestTemplate restTemplate = new RestTemplate();
+
+                try {
+                    ResponseEnderecoTO response = restTemplate.getForObject(url, ResponseEnderecoTO.class);
+
+                    if (response == null || response.getLogradouro() == null) {
+                        throw new IllegalStateException("Não foi possível encontrar informações para o CEP informado.");
+                    }
+                    if ("true".equals(response.getErro())) {
+                        throw new IllegalStateException("O CEP informado não está cadastrado.");
+                    }
+                    
+                    return response;
+            
+                } catch (Exception e) {
+                    throw new RuntimeException("Erro ao buscar informações de endereço: " + e.getMessage(), e);
+                }
+            }
+            throw new IllegalArgumentException("CEP inválido. Deve conter 8 dígitos numéricos.");
+        }
 
     // TODO PREENCHER AS INFORMAÇÕES RECEBIDAS E ALIMENTAR OS MUNICIPIOS
     // TODO BUSCAR AS INFORMAÇÕES DO MUNICIPIO NA NOSSA BASE, SE NÃO ENCONTRAR, UTILIZAR
