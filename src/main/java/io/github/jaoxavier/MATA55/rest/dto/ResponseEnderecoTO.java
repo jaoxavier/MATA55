@@ -17,4 +17,5 @@ public class ResponseEnderecoTO {
     private String gia;
     private String ddd;
     private String siafi;
+    private String erro;
 }
